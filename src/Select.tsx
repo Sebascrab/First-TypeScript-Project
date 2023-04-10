@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import styles from "./select.module.css"
 
 export type SelectOption = {
@@ -24,9 +24,13 @@ type SelectProps = {
     // onChange: (value: SelectOption | undefined) => void
 } & (SingleSelectProps | MultipleSelectProps)
 
+
+
 export function Select({ multiple, value, onChange, options }: SelectProps) {
     const [isOpen, setIsOpen] = useState(false)
     const [highlightedIndex, setHighlightedIndex] = useState(0)
+
+    const containerRef = useRef<HTMLDivElement>(null)
 
     const clearOptions = () => {
         multiple ? onChange([]) : onChange(undefined)
@@ -53,9 +57,12 @@ export function Select({ multiple, value, onChange, options }: SelectProps) {
         if (isOpen) setHighlightedIndex(0)
     }, [isOpen])
 
+  
+
 
     return (
         <div
+        
             onBlur={() => setIsOpen(false)}
             onClick={() => setIsOpen(prev => !prev)} tabIndex={0} className={styles.container}>
             <span className={styles.value}>{multiple ? value.map(v => (
